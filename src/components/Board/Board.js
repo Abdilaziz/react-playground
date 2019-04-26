@@ -3,16 +3,41 @@ import Square from '../Square/Square';
 import './Board.css';
 
 class Board extends Component {
+
+    // constructor(props) {
+    //   super(props);
+    //   this.state = {
+    //     squares: Array(9).fill(null),
+    //     xIsNext: true,
+    //   };
+    // }
+
     renderSquare(i) {
-      return <Square value={i} />;
+      // pass the square its value (either X, O, or null)
+      return (
+        <Square 
+          value={this.props.squares[i]}
+          onClick={() => this.props.onClick(i)} 
+        />
+      );
     }
   
     render() {
-      const status = 'Next player: X';
-  
+
+      // const winner = calculateWinner(this.state.squares);
+      // let status;
+      // if (winner) {
+      //   status = 'Winner: ' + winner;
+      // }
+      // else {
+      //   status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O' );
+      // }
+
+      // parent component pass its state to child components through props
+      // child component lifts its state into a parent component (by passing callback to child)
       return (
         <div>
-          <div className="status">{status}</div>
+          {/* <div className="status">{status}</div> */}
           <div className="board-row">
             {this.renderSquare(0)}
             {this.renderSquare(1)}
