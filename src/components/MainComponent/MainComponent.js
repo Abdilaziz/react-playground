@@ -1,17 +1,14 @@
 import React, { Component } from 'react';
-import { Switch, Route, Redirect } from 'react-router-dom';
+import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 import { Navbar, NavbarBrand } from 'reactstrap';
 import Menu from '../MenuComponent/MenuComponent';
 import DishDetail from './DishdetailComponent';
-import { DISHES } from '../shared/dishes';
 import Home from '../HomeComponent/HomeComponent';
 import Header from './HeaderComponent';
 import Footer from './FooterComponent';
 import Contact from './ContactComponent';
 
-import { COMMENTS } from '../shared/comments';
-import { PROMOTIONS } from '../shared/promotions';
-import { LEADERS } from '../shared/leaders';
+import { connect } from 'react-redux';
 
 const DishWithId = ({match}) => {
   return(
@@ -20,17 +17,28 @@ const DishWithId = ({match}) => {
   );
 };
 
+// turn state into props for the component
+// state input is from the redux store
+
+const mapStateToProps = state => {
+  return {
+    dishes: state.dishes,
+    comments: state.comments,
+    promotions: state.promotions,
+    leaders: state.leaders
+  }
+};
+
 class Main extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-      dishes: DISHES,
-      comments: COMMENTS,
-      promotions: PROMOTIONS,
-      leaders: LEADERS
-    };
+
+    connect()
+
   }
+
+
 
   onDishSelect(dishId) {
     this.setState({ selectedDish: dishId});
@@ -78,4 +86,6 @@ class Main extends Component {
   }
 }
 
-export default Main;
+// wrap in connect to take props coming out of mapStateToProps into the props
+// of the constructor of Main
+export default withRouter(connect(mapStateToProps)(Main));

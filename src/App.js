@@ -10,6 +10,12 @@ import Game from './components/Game/Game';
 import Menu from './components/MenuComponent/MenuComponent';
 import Main from './components/MainComponent/MainComponent';
 
+// gives redux store to every component
+import { Provider } from 'react-redux';
+import { ConfigureStore } from './redux/configureStore';
+
+const store = ConfigureStore();
+
 class App extends Component {
 
   constructor(props) {
@@ -19,38 +25,37 @@ class App extends Component {
     };
   }
 
-
   render() {
     return (
+      <Provider store={store} >
+        <BrowserRouter>
+        
+            <div className="App">
 
-      <BrowserRouter>
-      
-          <div className="App">
+            <Navbar dark color="primary">
+              <div className="container" >
+                <NavbarBrand href="/">Main Page</NavbarBrand>
+              </div>
+            </Navbar>
 
-          <Navbar dark color="primary">
-            <div className="container" >
-              <NavbarBrand href="/">Main Page</NavbarBrand>
-            </div>
-          </Navbar>
+            <Menu  dishes={this.state.dishes} />
 
-          <Menu  dishes={this.state.dishes} />
+            {/* <Main /> */}
 
-          {/* <Main /> */}
+            <header className="App-header">
+              <img src={logo} className="App-logo" alt="logo" />
+              <h1 className="App-title">Welcome to React</h1>
+            </header>
+            <p className="App-intro">
+              To get started, edit <code>src/App.js</code> and save to reload.
+            </p>
+            {/* <ShoppingList name="Abdilaziz"/>
+            <Game /> */}
+          </div>      
+        
+        </BrowserRouter>
 
-          <header className="App-header">
-            <img src={logo} className="App-logo" alt="logo" />
-            <h1 className="App-title">Welcome to React</h1>
-          </header>
-          <p className="App-intro">
-            To get started, edit <code>src/App.js</code> and save to reload.
-          </p>
-          {/* <ShoppingList name="Abdilaziz"/>
-          <Game /> */}
-        </div>      
-      
-      </BrowserRouter>
-
-    
+      </Provider>
     
     );
   }
