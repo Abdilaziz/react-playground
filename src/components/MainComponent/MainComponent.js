@@ -8,6 +8,8 @@ import Header from './HeaderComponent';
 import Footer from './FooterComponent';
 import Contact from './ContactComponent';
 
+import { addComment } from '../redux/ActionCreators';
+
 import { connect } from 'react-redux';
 
 const DishWithId = ({match}) => {
@@ -28,6 +30,12 @@ const mapStateToProps = state => {
     leaders: state.leaders
   }
 };
+
+const mapDispatchToProps = dispatch => ({
+  
+  addComment: (dishId, rating, author, comment) => dispatch(addComment(dishId, rating, author, comment))
+
+});
 
 class Main extends Component {
 
@@ -69,7 +77,11 @@ class Main extends Component {
 
         <Header />
         <Menu dishes={this.state.dishes} onClick={(dishId) => this.onDishSelect(dishId)} />
-        <DishDetail dish={this.state.dishes.filter((dish) => dish.id === this.state.selectedDish)[0]} />
+        {/* <DishDetail dish={this.state.dishes.filter((dish) => dish.id === this.state.selectedDish)[0]} /> */}
+        <DishDetail dish={this.props.dishes.filter((dish) => dish.id === parseInt(match.params.dishId,10))[0]}
+          comments={this.props.comments.filter((comment) => comment.dishId === parseInt(match.params.dishId,10))}
+          addComment={this.props.addComment}
+        />
         <Footer />
 
         
@@ -88,4 +100,4 @@ class Main extends Component {
 
 // wrap in connect to take props coming out of mapStateToProps into the props
 // of the constructor of Main
-export default withRouter(connect(mapStateToProps)(Main));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Main));
