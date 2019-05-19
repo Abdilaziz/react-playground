@@ -4,6 +4,8 @@ import { Card, CardImg, CardImgOverlay,
     CardTitle, Breadcrumb, BreadcrumbItem } from 'reactstrap';
 import { Link } from 'react-router-dom';
 
+import { Loading } from './LoadingComponent';
+
 function RenderMenuItem ({dish, onClick}) {
     return (
         <Card>
@@ -37,15 +39,35 @@ class Menu extends Component {
     }
 
     renderDish(dish) {
-        if (dish != null) {
-            return (
-                <Card>
-                    <CardImg top src={dish.image} alt={dish.name} />
-                    <CardBody>
-                      <CardTitle>{dish.name}</CardTitle>
-                      <CardText>{dish.description}</CardText>
-                    </CardBody>
-                </Card>
+        // if (dish != null) {
+        //     return (
+        //         <Card>
+        //             <CardImg top src={dish.image} alt={dish.name} />
+        //             <CardBody>
+        //               <CardTitle>{dish.name}</CardTitle>
+        //               <CardText>{dish.description}</CardText>
+        //             </CardBody>
+        //         </Card>
+        //     );
+        // }
+        if (props.dishes.isLoading) {
+            return(
+                <div className="container">
+                    <div className="row">            
+                        <Loading />
+                    </div>
+                </div>
+            );
+        }
+        else if (props.dishes.errMess) {
+            return(
+                <div className="container">
+                    <div className="row"> 
+                        <div className="col-12">
+                            <h4>{props.dishes.errMess}</h4>
+                        </div>
+                    </div>
+                </div>
             );
         }
         else {
@@ -56,7 +78,7 @@ class Menu extends Component {
     }
 
     render() {
-        const menu = this.props.dishes.map((dish) => {
+        const menu = props.dishes.dishes.map((dish) => {
             return (
               <div  className="col-12 col-md-5 m-1">
                 <Card key={dish.id}>
